@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Product;
+import com.example.demo.exception.CategoryNotFoundException;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
@@ -35,7 +36,8 @@ public class ProductService {
         return productRepository.findAll().stream().map(ProductMapper::toProductDTO).toList();
     }
     public ProductDTO getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(()->new RuntimeException("product not found"));
+
+        Product product = productRepository.findById(id).orElseThrow(()->new CategoryNotFoundException("Product with id " + id + " not found"));
     return ProductMapper.toProductDTO(product);
     }
     public ProductDTO updateProduct(Long id,ProductDTO productDTO) {
